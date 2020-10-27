@@ -24,7 +24,7 @@ import static org.mini2dx.Tappybird.TappyBirdGame.GRAVITY;
 
 public class Player {
 
-    public static float PLAYER_X = 100;
+    public static float PLAYER_X = 70; //player left spacing/spanning
     private static float JUMP_ACCEL = -12.0f;
 
     private float playerTextureHeight, playerTextureWidth;
@@ -44,8 +44,8 @@ public class Player {
         this.playerTexture = playerTexture;
         playerTextureHeight = playerTexture.playerSpriteSheet.getSprite(0).getHeight();
         playerTextureWidth = playerTexture.playerSpriteSheet.getSprite(0).getWidth();
-        playerCollisionBox = generateCollisionRectAt(PLAYER_X, playerY);
         playerY = 250-playerTextureHeight/2;
+        playerCollisionBox = generateCollisionRectAt(PLAYER_X, playerY);
         this.isRotating = isRotating;
         this.isTesting = isTesting;
         playerTexture.playerAnimation.setLooping(true);

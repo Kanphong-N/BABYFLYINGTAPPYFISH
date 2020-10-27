@@ -23,16 +23,30 @@ import org.mini2Dx.core.graphics.Texture;
 
 public class PlayerTexture {
 
-    private static final String PLAYER_SPRITE_SHEET_LOCATION = "Player/planes.png";
+    //private static final String PLAYER_SPRITE_SHEET_LOCATION = "Player/jellyfish.png";
 
     private float frameDuration = 0.025f;
 
-    Texture spriteTexture = Mdx.graphics.newTexture(Mdx.files.internal(PLAYER_SPRITE_SHEET_LOCATION));
-    SpriteSheet playerSpriteSheet = new SpriteSheet(spriteTexture,88,73);
+//    Texture spriteTexture = Mdx.graphics.newTexture(Mdx.files.internal(PLAYER_SPRITE_SHEET_LOCATION));
+//    SpriteSheet playerSpriteSheet = new SpriteSheet(spriteTexture,88,73);
+//    Animation playerAnimation = new Animation();
+
+    Texture spriteTexture;
+    SpriteSheet playerSpriteSheet;
     Animation playerAnimation = new Animation();
 
 
-    public PlayerTexture(){
+//    public PlayerTexture(){
+//        playerAnimation.addFrame(playerSpriteSheet.getSprite(1),frameDuration);
+//        playerAnimation.addFrame(playerSpriteSheet.getSprite(9),frameDuration);
+//        playerAnimation.addFrame(playerSpriteSheet.getSprite(12),frameDuration);
+//        playerAnimation.addFrame(playerSpriteSheet.getSprite(9),frameDuration);
+//    }
+
+    public PlayerTexture(String filePath){
+        spriteTexture = Mdx.graphics.newTexture(Mdx.files.internal(filePath));
+        playerSpriteSheet = new SpriteSheet(spriteTexture,88,73);
+
         playerAnimation.addFrame(playerSpriteSheet.getSprite(1),frameDuration);
         playerAnimation.addFrame(playerSpriteSheet.getSprite(9),frameDuration);
         playerAnimation.addFrame(playerSpriteSheet.getSprite(12),frameDuration);

@@ -22,6 +22,21 @@ import org.mini2Dx.gdx.Input;
 public class InputHandler {
 
     boolean spacePressed() {
+
         return Mdx.input.isKeyJustPressed(Input.Keys.SPACE);
+    }
+
+    //Increase speed
+    boolean plusPressed(){
+        return Mdx.input.isKeyJustPressed(Input.Keys.X);
+    }
+
+    //Decrease Speed
+    boolean minusPressed(){
+        return Mdx.input.isKeyJustPressed(Input.Keys.Z);
+    }
+
+    boolean aPressed(){
+        return Mdx.input.isKeyJustPressed(Input.Keys.A);
     }
 }

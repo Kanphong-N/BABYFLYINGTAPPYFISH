@@ -35,7 +35,12 @@ public class UserInterface {
     Integer[] digits;
 
     private int numberWidth = 53;
-    private int highscoreY = 75;
+    private int highscoreY = 10;
+
+    //speed setting label
+    Integer[] speeds;
+    private int speedY = 200;
+
     private int messageY = (int)(GAME_HEIGHT - 100);
 
     public UserInterface(UserInterfaceTexture userInterfaceTexture){
@@ -78,6 +83,7 @@ public class UserInterface {
         }
     }
 
+    //Display Highscore
     void displayHighscore (Graphics g, int highscore){
 
         digits = intToIntArrayByDigits(highscore);
@@ -92,6 +98,21 @@ public class UserInterface {
             }
         } else {
             g.drawTexture(numberTextures[0],GAME_WIDTH/2 - numberWidth/2, highscoreY + 60);
+        }
+    }
+
+    // Display Speed
+    void displaySpeed (Graphics g, int speed) {
+        speeds = intToIntArrayByDigits(speed);
+
+        if(speeds.length > 0) {
+            for (int i = 0; i < speeds.length; i++) {
+                g.drawTexture(numberTextures[speeds[i]],
+                        (GAME_WIDTH / 2) - (speeds.length * numberWidth / 2) + (i * numberWidth),
+                        speedY + 60);
+            }
+        } else {
+            g.drawTexture(numberTextures[0], GAME_WIDTH/2 - numberWidth/2, speedY + 60);
         }
     }
 

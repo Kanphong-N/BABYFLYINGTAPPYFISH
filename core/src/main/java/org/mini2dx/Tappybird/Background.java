@@ -38,6 +38,7 @@ public class Background extends Hazards {
         point.set(point.getX() - FLYING_SPEED * BACKGROUND_SPEED, point.getY());
 
         //This resets the backgrounds position to it's original once it has left the screen.
+        //bg loop
         if (point.getX() < -width + 5) {
             point.setX(width - 5);
         }

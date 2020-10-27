@@ -34,8 +34,12 @@ public class TappyBirdGame extends BasicGame {
     public static final float GAME_HEIGHT = 500;
 
     //These variables change how it feels to play the game.
-    private static float GAME_GRAVITY = 0.6f;
+    private static float GAME_GRAVITY = 0.5f;
     private static float GAME_FLYING_SPEED = 8f;
+
+    //Add speed by
+    private static float ADJUST_FLYING_SPEED = 2f;
+
     private static boolean IS_ROTATING = false;
     private static boolean IS_TESTING = false;
     private static int MAX_PILLARS = 8;
@@ -45,9 +49,13 @@ public class TappyBirdGame extends BasicGame {
     private static float PILLAR_GAP_MIN = 175f;
     private static float PILLAR_GAP_MAX = 250f;
 
+    //Player
+    private static Player[] players;
+    int countPlayer = 0;
+
     //Game states and player score
     private boolean inGame, isDead;
-    private static int playerScore, highScore;
+    protected static int playerScore, highScore;
 
     Viewport fitViewport;
     InputHandler inputHandler;
@@ -81,7 +89,16 @@ public class TappyBirdGame extends BasicGame {
         collisionRectanglesBottom = new CollisionBox[MAX_PILLARS];
         collisionRectanglesTop = new CollisionBox[MAX_PILLARS];
 
-        playerTexture = new PlayerTexture();
+        //players
+        players = new Player[]{new Player(new PlayerTexture("PLAYER/planes.png"), IS_ROTATING, IS_TESTING)
+                , new Player(new PlayerTexture("PLAYER/jellyfish.png"), IS_ROTATING, IS_TESTING)
+                , new Player(new PlayerTexture("PLAYER/submarine.png"), IS_ROTATING, IS_TESTING)};
+
+
+
+        player = players[countPlayer];
+
+        //playerTexture = new PlayerTexture();
         backgroundTexture = new BackgroundTexture();
         pillarTexture = new PillarTexture();
         topBottomEdgeTexture = new TopBottomEdgeTexture();
@@ -91,7 +108,7 @@ public class TappyBirdGame extends BasicGame {
         gameSounds.loopBackgroundMusic();
 
         inputHandler = new InputHandler();
-        player = new Player(playerTexture, IS_ROTATING, IS_TESTING);
+        //player = new Player(playerTexture, IS_ROTATING, IS_TESTING);
         ground1 = new TopBottomEdge(topBottomEdgeTexture);
         ground2 = new TopBottomEdge(topBottomEdgeTexture);
         ground2.generateHazardAtPos(GAME_WIDTH, GAME_HEIGHT - ground1.getGroundTextureHeight());
@@ -106,6 +123,7 @@ public class TappyBirdGame extends BasicGame {
         playerData = new PlayerData();
         playerData.loadPlayerData();
         highScore = playerData.getHighScore();
+
     }
 
     @Override
@@ -122,11 +140,33 @@ public class TappyBirdGame extends BasicGame {
         } else {
             pillarTiming -= new Random().nextInt(2) + 1;
 
+            //edit
+            if (inputHandler.plusPressed()){
+                FLYING_SPEED += ADJUST_FLYING_SPEED;
+            }
+
+            if (inputHandler.minusPressed()){
+                FLYING_SPEED -= ADJUST_FLYING_SPEED;
+            }
+
+            if (inputHandler.aPressed() && !inGame) {
+                if(countPlayer >= (players.length-1)){
+                    countPlayer = 0;
+                } else {
+                    countPlayer++;
+                }
+                player = changePlayer(countPlayer);
+            }
+
             if (inputHandler.spacePressed()) {
                 GRAVITY = GAME_GRAVITY;
                 inGame = true;
             }
 
+            if (inputHandler.spacePressed()) {
+                GRAVITY = GAME_GRAVITY;
+                inGame = true;
+            }
 
             if (inGame && pillarTiming < 0) {
                 pillarTiming = PILLAR_TIMING;
@@ -186,8 +226,12 @@ public class TappyBirdGame extends BasicGame {
         if (!inGame) {
             userInterface.displayGetReadyMessage(g);
             userInterface.displayHighscore(g,highScore);
-        }
 
+            //speed
+            userInterface.displaySpeed(g,(int)FLYING_SPEED);
+
+            //player
+        }
         if (isDead) {
             userInterface.displayGameOverMessage(g);
         }
@@ -223,10 +267,25 @@ public class TappyBirdGame extends BasicGame {
         return playerScore;
     }
 
+    void setSpeed() {
+        inGame = true;
+        if (playerScore>2) {
+            FLYING_SPEED = 20f;
+        }
+    }
+
     void setDead() {
         isDead = true;
         FLYING_SPEED = 0f;
         GRAVITY = 0f;
         gameSounds.playRandomExplosionSound();
+    }
+
+    Player changePlayer(int count){
+        if (count > (players.length-1)) {
+            return players[0];
+        } else {
+            return players[count];
+        }
     }
 }
